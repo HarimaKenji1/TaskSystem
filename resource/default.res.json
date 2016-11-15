@@ -1,0 +1,365 @@
+{
+	"groups": [
+		{
+			"keys": "bg_jpg,egret_icon_png,description_json,Ground_png,0008_png,0019_png,0009_png,0010_png,0011_png,0012_png,0013_png,0014_png,0015_png,0016_png,0017_png,0018_png,0029_png,0030_png,0031_png,0032_png,0033_png,0034_png,0024_png,0025_png,0026_png,0027_png,0028_png,0024_2_png,0025_2_png,0026_2_png,0027_2_png,0028_2_png,0029_2_png,0030_2_png,0031_2_png,0032_2_png,0033_2_png,0034_2_png,BackGround_jpg,grass_top_png,stone_png,stonebrick_png,stonebrick_cracked_png,stonebrick_mossy_png,gold_ore_png,leaves_spruce_opaque_png,mycelium_top_png,diamond_ore_png,furnace_side_png,40e5addda144ad34f4c50016d4a20cf430ad8574_jpg,7629f41b9d16fdfa6017417fb08f8c5495ee7b6b_jpg,cactus_top_png,d8e5e754564e9258354e017f9882d158cdbf4e74_jpg,f9fe2530e924b899f546fea96a061d950b7bf674_jpg,hardened_clay_stained_green_with_red_flower_png,hardened_clay_stained_green_with_tree_png,hardened_clay_stained_green_with_white_flower_png,hardened_clay_stained_green_with_yellow_flower_png,pumpkin_png,jieshou_png,wancheng_png,renwumianbanbeijing_png,wancheng_gray_png,jieshou_gray_png,wenhao_gray_png,wenhao_yellow_png,tanhao_gray_png,tanhao_yellow_png,NPC_Man_01_png,NPC_Man_02_png,duihuakuang_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "bg_jpg",
+			"type": "image",
+			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "egret_icon_png",
+			"type": "image",
+			"url": "assets/egret_icon.png"
+		},
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "Ground_png",
+			"type": "image",
+			"url": "assets/Ground.png"
+		},
+		{
+			"name": "0008_png",
+			"type": "image",
+			"url": "assets/0008.png"
+		},
+		{
+			"name": "0019_png",
+			"type": "image",
+			"url": "assets/0019.png"
+		},
+		{
+			"name": "0009_png",
+			"type": "image",
+			"url": "assets/0009.png"
+		},
+		{
+			"name": "0010_png",
+			"type": "image",
+			"url": "assets/0010.png"
+		},
+		{
+			"name": "0011_png",
+			"type": "image",
+			"url": "assets/0011.png"
+		},
+		{
+			"name": "0012_png",
+			"type": "image",
+			"url": "assets/0012.png"
+		},
+		{
+			"name": "0013_png",
+			"type": "image",
+			"url": "assets/0013.png"
+		},
+		{
+			"name": "0014_png",
+			"type": "image",
+			"url": "assets/0014.png"
+		},
+		{
+			"name": "0015_png",
+			"type": "image",
+			"url": "assets/0015.png"
+		},
+		{
+			"name": "0016_png",
+			"type": "image",
+			"url": "assets/0016.png"
+		},
+		{
+			"name": "0017_png",
+			"type": "image",
+			"url": "assets/0017.png"
+		},
+		{
+			"name": "0018_png",
+			"type": "image",
+			"url": "assets/0018.png"
+		},
+		{
+			"name": "0029_png",
+			"type": "image",
+			"url": "assets/0029.png"
+		},
+		{
+			"name": "0030_png",
+			"type": "image",
+			"url": "assets/0030.png"
+		},
+		{
+			"name": "0031_png",
+			"type": "image",
+			"url": "assets/0031.png"
+		},
+		{
+			"name": "0032_png",
+			"type": "image",
+			"url": "assets/0032.png"
+		},
+		{
+			"name": "0033_png",
+			"type": "image",
+			"url": "assets/0033.png"
+		},
+		{
+			"name": "0034_png",
+			"type": "image",
+			"url": "assets/0034.png"
+		},
+		{
+			"name": "0024_png",
+			"type": "image",
+			"url": "assets/0024.png"
+		},
+		{
+			"name": "0025_png",
+			"type": "image",
+			"url": "assets/0025.png"
+		},
+		{
+			"name": "0026_png",
+			"type": "image",
+			"url": "assets/0026.png"
+		},
+		{
+			"name": "0027_png",
+			"type": "image",
+			"url": "assets/0027.png"
+		},
+		{
+			"name": "0028_png",
+			"type": "image",
+			"url": "assets/0028.png"
+		},
+		{
+			"name": "0024_2_png",
+			"type": "image",
+			"url": "assets/0024_2.png"
+		},
+		{
+			"name": "0025_2_png",
+			"type": "image",
+			"url": "assets/0025_2.png"
+		},
+		{
+			"name": "0026_2_png",
+			"type": "image",
+			"url": "assets/0026_2.png"
+		},
+		{
+			"name": "0027_2_png",
+			"type": "image",
+			"url": "assets/0027_2.png"
+		},
+		{
+			"name": "0028_2_png",
+			"type": "image",
+			"url": "assets/0028_2.png"
+		},
+		{
+			"name": "0029_2_png",
+			"type": "image",
+			"url": "assets/0029_2.png"
+		},
+		{
+			"name": "0030_2_png",
+			"type": "image",
+			"url": "assets/0030_2.png"
+		},
+		{
+			"name": "0031_2_png",
+			"type": "image",
+			"url": "assets/0031_2.png"
+		},
+		{
+			"name": "0032_2_png",
+			"type": "image",
+			"url": "assets/0032_2.png"
+		},
+		{
+			"name": "0033_2_png",
+			"type": "image",
+			"url": "assets/0033_2.png"
+		},
+		{
+			"name": "0034_2_png",
+			"type": "image",
+			"url": "assets/0034_2.png"
+		},
+		{
+			"name": "BackGround_jpg",
+			"type": "image",
+			"url": "assets/BackGround.jpg"
+		},
+		{
+			"name": "grass_top_png",
+			"type": "image",
+			"url": "assets/grass_top.png"
+		},
+		{
+			"name": "stone_png",
+			"type": "image",
+			"url": "assets/stone.png"
+		},
+		{
+			"name": "stonebrick_png",
+			"type": "image",
+			"url": "assets/stonebrick.png"
+		},
+		{
+			"name": "stonebrick_cracked_png",
+			"type": "image",
+			"url": "assets/stonebrick_cracked.png"
+		},
+		{
+			"name": "stonebrick_mossy_png",
+			"type": "image",
+			"url": "assets/stonebrick_mossy.png"
+		},
+		{
+			"name": "gold_ore_png",
+			"type": "image",
+			"url": "assets/gold_ore.png"
+		},
+		{
+			"name": "leaves_spruce_opaque_png",
+			"type": "image",
+			"url": "assets/leaves_spruce_opaque.png"
+		},
+		{
+			"name": "mycelium_top_png",
+			"type": "image",
+			"url": "assets/mycelium_top.png"
+		},
+		{
+			"name": "diamond_ore_png",
+			"type": "image",
+			"url": "assets/diamond_ore.png"
+		},
+		{
+			"name": "furnace_side_png",
+			"type": "image",
+			"url": "assets/furnace_side.png"
+		},
+		{
+			"name": "40e5addda144ad34f4c50016d4a20cf430ad8574_jpg",
+			"type": "image",
+			"url": "assets/40e5addda144ad34f4c50016d4a20cf430ad8574.jpg"
+		},
+		{
+			"name": "7629f41b9d16fdfa6017417fb08f8c5495ee7b6b_jpg",
+			"type": "image",
+			"url": "assets/7629f41b9d16fdfa6017417fb08f8c5495ee7b6b.jpg"
+		},
+		{
+			"name": "cactus_top_png",
+			"type": "image",
+			"url": "assets/cactus_top.png"
+		},
+		{
+			"name": "d8e5e754564e9258354e017f9882d158cdbf4e74_jpg",
+			"type": "image",
+			"url": "assets/d8e5e754564e9258354e017f9882d158cdbf4e74.jpg"
+		},
+		{
+			"name": "f9fe2530e924b899f546fea96a061d950b7bf674_jpg",
+			"type": "image",
+			"url": "assets/f9fe2530e924b899f546fea96a061d950b7bf674.jpg"
+		},
+		{
+			"name": "hardened_clay_stained_green_with_red_flower_png",
+			"type": "image",
+			"url": "assets/hardened_clay_stained_green_with_red_flower.png"
+		},
+		{
+			"name": "hardened_clay_stained_green_with_tree_png",
+			"type": "image",
+			"url": "assets/hardened_clay_stained_green_with_tree.png"
+		},
+		{
+			"name": "hardened_clay_stained_green_with_white_flower_png",
+			"type": "image",
+			"url": "assets/hardened_clay_stained_green_with_white_flower.png"
+		},
+		{
+			"name": "hardened_clay_stained_green_with_yellow_flower_png",
+			"type": "image",
+			"url": "assets/hardened_clay_stained_green_with_yellow_flower.png"
+		},
+		{
+			"name": "pumpkin_png",
+			"type": "image",
+			"url": "assets/pumpkin.png"
+		},
+		{
+			"name": "jieshou_png",
+			"type": "image",
+			"url": "assets/jieshou.png"
+		},
+		{
+			"name": "wancheng_png",
+			"type": "image",
+			"url": "assets/wancheng.png"
+		},
+		{
+			"name": "renwumianbanbeijing_png",
+			"type": "image",
+			"url": "assets/renwumianbanbeijing.png"
+		},
+		{
+			"name": "wancheng_gray_png",
+			"type": "image",
+			"url": "assets/wancheng_gray.png"
+		},
+		{
+			"name": "jieshou_gray_png",
+			"type": "image",
+			"url": "assets/jieshou_gray.png"
+		},
+		{
+			"name": "wenhao_gray_png",
+			"type": "image",
+			"url": "assets/wenhao_gray.png"
+		},
+		{
+			"name": "wenhao_yellow_png",
+			"type": "image",
+			"url": "assets/wenhao_yellow.png"
+		},
+		{
+			"name": "tanhao_gray_png",
+			"type": "image",
+			"url": "assets/tanhao_gray.png"
+		},
+		{
+			"name": "tanhao_yellow_png",
+			"type": "image",
+			"url": "assets/tanhao_yellow.png"
+		},
+		{
+			"name": "NPC_Man_01_png",
+			"type": "image",
+			"url": "assets/NPC_Man_01.png"
+		},
+		{
+			"name": "NPC_Man_02_png",
+			"type": "image",
+			"url": "assets/NPC_Man_02.png"
+		},
+		{
+			"name": "duihuakuang_png",
+			"type": "image",
+			"url": "assets/duihuakuang.png"
+		}
+	]
+}
