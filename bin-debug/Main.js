@@ -56,11 +56,11 @@ var Main = (function (_super) {
         this.movingTime = 32;
         this.ifOnGoal = false;
         this.ifStartMove = false;
-        this.task01 = new Task("task_00", "点击NPC_1,在NPC_2交任务", "npc_0", "npc_1");
+        //private task01 : Task = new Task("task_00","点击NPC_1,在NPC_2交任务","npc_0","npc_1");
         //private task02 : Task = new Task("task_");
         this.taskService = new TaskService();
-        this.Npc01Dialogue = ["你的第一个任务是：去第二个NPC那里交任务"];
-        this.Npc02Dialogue = ["完成你的任务"];
+        this.Npc01Dialogue = ["你好我是NPC01"];
+        this.Npc02Dialogue = ["你好我是NPC02"];
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
     var d = __define,c=Main,p=c.prototype;
@@ -143,7 +143,8 @@ var Main = (function (_super) {
         var stageH = this.stage.stageHeight;
         this.map01 = new TileMap();
         this.addChild(this.map01);
-        TaskService.getInstance().addTask(this.task01);
+        //TaskService.getInstance().addTask(this.task01);
+        TaskService.getInstance().init();
         this.taskPanel = new TaskPanel();
         TaskService.getInstance().addObserver(this.taskPanel);
         this.addChild(this.taskPanel);

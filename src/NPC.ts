@@ -3,6 +3,7 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
     private NPCBitmap : egret.Bitmap;
     private emoji : egret.Bitmap;
     private dialogue : string[] = [];
+    //private canFinishedTaskId : string = null;
     private taskList:{
         [index : string]:Task
     } = {};
@@ -36,16 +37,16 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
 
         let rule = (taskList) => {
             for(var taskId in taskList){
-                if( taskList[taskId].getFromNpcId() == this.NPCId || taskList[taskId].getToNpcId() == this.NPCId){
+                if( taskList[taskId].fromNpcId == this.NPCId || taskList[taskId].toNpcId == this.NPCId){
                 this.taskList[taskId] = taskList[taskId];
                 }
-                if(taskList[taskId].getFromNpcId() == this.NPCId && taskList[taskId].showStatus() == TaskStatus.UNACCEPTABLE){
+                if(taskList[taskId].fromNpcId == this.NPCId && taskList[taskId].status == TaskStatus.UNACCEPTABLE){
                    var texture : egret.Texture = RES.getRes("tanhao_yellow_png");
                    this.emoji.texture = texture;
                    this.taskList[taskId] = taskList[taskId];
                 }
 
-                if(this.NPCId  == taskList[taskId].getToNpcId() && taskList[taskId].showStatus() == TaskStatus.CAN_SUBMIT){
+                if(this.NPCId  == taskList[taskId].toNpcId && taskList[taskId].status == TaskStatus.CAN_SUBMIT){
                    var texture : egret.Texture = RES.getRes("wenhao_yellow_png");
                    this.emoji.texture = texture;
                    this.taskList[taskId] = taskList[taskId];
@@ -61,42 +62,74 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
     }
 
     onChange(task : Task){
-            if(this.NPCId == task.getFromNpcId() && task.showStatus() == TaskStatus.ACCEPTABLE){
+            if(this.NPCId == task.fromNpcId && task.status == TaskStatus.ACCEPTABLE){
                this.emoji.alpha = 1;
                var texture : egret.Texture = RES.getRes("tanhao_yellow_png");
                this.emoji.texture = texture;
-               this.taskList[task.getId()].changeStatus(TaskStatus.ACCEPTABLE);
+               this.taskList[task.id].status = TaskStatus.ACCEPTABLE;
                return;
             }
 
-            if(this.NPCId == task.getToNpcId() && task.showStatus() == TaskStatus.DURING){
+            if(this.NPCId == task.toNpcId && task.status == TaskStatus.DURING){
                 this.emoji.alpha = 1;
                var texture : egret.Texture = RES.getRes("wenhao_yellow_png");
                this.emoji.texture = texture;
-               this.taskList[task.getId()].changeStatus(TaskStatus.DURING);
+               this.taskList[task.id].status = TaskStatus.DURING;
+               //this.canFinishedTaskId = task.id;
                return;
             }
 
-            if(this.NPCId == task.getFromNpcId() && task.showStatus() != TaskStatus.ACCEPTABLE && task.showStatus() != TaskStatus.SUBMITTED){
+            // if(this.NPCId == task.toNpcId && task.status == TaskStatus.CAN_SUBMIT){
+            //     this.canFinishedTaskId = task.id;
+            //     return;
+            // }
+
+            // if(this.NPCId == task.toNpcId && task.status == TaskStatus.SUBMITTED){
+            //     this.canFinishedTaskId = null;
+            //     return;
+            // }
+
+            if(this.NPCId == task.fromNpcId && task.status != TaskStatus.ACCEPTABLE && task.status != TaskStatus.SUBMITTED){
                 this.emoji.alpha = 0;
-                this.taskList[task.getId()].changeStatus(task.showStatus());
+                this.taskList[task.id].status = task.status;
                 return;
             }
 
-            if(this.NPCId == task.getToNpcId() && task.showStatus() != TaskStatus.CAN_SUBMIT){
+            if(this.NPCId == task.toNpcId && task.status != TaskStatus.CAN_SUBMIT){
                 this.emoji.alpha = 0;
-                this.taskList[task.getId()].changeStatus(task.showStatus());
+                this.taskList[task.id].status = task.status;
                 return;
             }
+
+            
+
+
         
     }
 
     private onNPCClick(){
         this.NPCBitmap.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
-            console.log("on Click");
+            //console.log(this.canFinishedTaskId);
+            // if(this.canFinishedTaskId != null){
+            //         if(this.NPCId == this.taskList[this.canFinishedTaskId].toNpcId && this.taskList[this.canFinishedTaskId].status == TaskStatus.DURING){
+            //         DialoguePanel.getInstance().alpha = 0.8;
+            //         DialoguePanel.getInstance().buttonTouchEnable(true);
+            //         DialoguePanel.getInstance().setButtonBitmap("wancheng_png");
+            //         DialoguePanel.getInstance().setIfAccept(false);
+            //         DialoguePanel.getInstance().setDuringTaskId(this.canFinishedTaskId);
+            //         DialoguePanel.getInstance().setDialogueText(this.dialogue);
+            //         DialoguePanel.getInstance().setBackgroundBitmap("duihuakuang_png");
+            //         TaskService.getInstance().canFinish(this.canFinishedTaskId);
+            //     }
+            // }
+
+            //if( this.canFinishedTaskId == null){
             for(var taskId in this.taskList){
                 //console.log(taskId);
-                if(this.NPCId == this.taskList[taskId].getFromNpcId() && this.taskList[taskId].showStatus() == TaskStatus.UNACCEPTABLE){
+                
+
+
+                if(this.NPCId == this.taskList[taskId].fromNpcId && this.taskList[taskId].status == TaskStatus.UNACCEPTABLE){
                     DialoguePanel.getInstance().alpha = 0.8;
                     DialoguePanel.getInstance().buttonTouchEnable(true);
                     DialoguePanel.getInstance().setButtonBitmap("jieshou_png");
@@ -108,8 +141,9 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
                     break;
                 }
 
-                if(this.NPCId == this.taskList[taskId].getToNpcId() && this.taskList[taskId].showStatus() == TaskStatus.DURING){
+                if(this.NPCId == this.taskList[taskId].toNpcId && this.taskList[taskId].status == TaskStatus.DURING){
                     DialoguePanel.getInstance().alpha = 0.8;
+                    //console.log("Give me dialogue");
                     DialoguePanel.getInstance().buttonTouchEnable(true);
                     DialoguePanel.getInstance().setButtonBitmap("wancheng_png");
                     DialoguePanel.getInstance().setIfAccept(false);
@@ -119,6 +153,9 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
                     TaskService.getInstance().canFinish(taskId);
                     break;
                 }
+               // }
+
+                
             }
         },this)
     }

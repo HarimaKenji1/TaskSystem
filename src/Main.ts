@@ -150,14 +150,14 @@ class Main extends egret.DisplayObjectContainer {
     private playery : number;
     private playerBitX : number;
     private playerBitY : number;
-    private task01 : Task = new Task("task_00","点击NPC_1,在NPC_2交任务","npc_0","npc_1");
+    //private task01 : Task = new Task("task_00","点击NPC_1,在NPC_2交任务","npc_0","npc_1");
     //private task02 : Task = new Task("task_");
     private taskService : TaskService = new TaskService();
     private taskPanel : TaskPanel;
     private NPC01 : NPC;
     private NPC02 : NPC;
-    private Npc01Dialogue : string[] = ["你的第一个任务是：去第二个NPC那里交任务"]
-    private Npc02Dialogue : string[] = ["完成你的任务"]
+    private Npc01Dialogue : string[] = ["你好我是NPC01"]
+    private Npc02Dialogue : string[] = ["你好我是NPC02"]
     private dialoguePanel : DialoguePanel; 
 
     
@@ -178,7 +178,8 @@ class Main extends egret.DisplayObjectContainer {
         this.map01 = new TileMap();
         this.addChild(this.map01);
 
-        TaskService.getInstance().addTask(this.task01);
+        //TaskService.getInstance().addTask(this.task01);
+        TaskService.getInstance().init();
         this.taskPanel = new TaskPanel();
         TaskService.getInstance().addObserver(this.taskPanel);
         

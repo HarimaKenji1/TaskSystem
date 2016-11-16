@@ -4,6 +4,7 @@ var NPC = (function (_super) {
         var _this = this;
         _super.call(this);
         this.dialogue = [];
+        //private canFinishedTaskId : string = null;
         this.taskList = {};
         for (var i = 0; i < dialogue.length; i++) {
             this.dialogue[i] = dialogue[i];
@@ -22,15 +23,15 @@ var NPC = (function (_super) {
         this.emoji = new egret.Bitmap();
         var rule = function (taskList) {
             for (var taskId in taskList) {
-                if (taskList[taskId].getFromNpcId() == _this.NPCId || taskList[taskId].getToNpcId() == _this.NPCId) {
+                if (taskList[taskId].fromNpcId == _this.NPCId || taskList[taskId].toNpcId == _this.NPCId) {
                     _this.taskList[taskId] = taskList[taskId];
                 }
-                if (taskList[taskId].getFromNpcId() == _this.NPCId && taskList[taskId].showStatus() == TaskStatus.UNACCEPTABLE) {
+                if (taskList[taskId].fromNpcId == _this.NPCId && taskList[taskId].status == TaskStatus.UNACCEPTABLE) {
                     var texture = RES.getRes("tanhao_yellow_png");
                     _this.emoji.texture = texture;
                     _this.taskList[taskId] = taskList[taskId];
                 }
-                if (_this.NPCId == taskList[taskId].getToNpcId() && taskList[taskId].showStatus() == TaskStatus.CAN_SUBMIT) {
+                if (_this.NPCId == taskList[taskId].toNpcId && taskList[taskId].status == TaskStatus.CAN_SUBMIT) {
                     var texture = RES.getRes("wenhao_yellow_png");
                     _this.emoji.texture = texture;
                     _this.taskList[taskId] = taskList[taskId];
@@ -45,38 +46,60 @@ var NPC = (function (_super) {
     }
     var d = __define,c=NPC,p=c.prototype;
     p.onChange = function (task) {
-        if (this.NPCId == task.getFromNpcId() && task.showStatus() == TaskStatus.ACCEPTABLE) {
+        if (this.NPCId == task.fromNpcId && task.status == TaskStatus.ACCEPTABLE) {
             this.emoji.alpha = 1;
             var texture = RES.getRes("tanhao_yellow_png");
             this.emoji.texture = texture;
-            this.taskList[task.getId()].changeStatus(TaskStatus.ACCEPTABLE);
+            this.taskList[task.id].status = TaskStatus.ACCEPTABLE;
             return;
         }
-        if (this.NPCId == task.getToNpcId() && task.showStatus() == TaskStatus.DURING) {
+        if (this.NPCId == task.toNpcId && task.status == TaskStatus.DURING) {
             this.emoji.alpha = 1;
             var texture = RES.getRes("wenhao_yellow_png");
             this.emoji.texture = texture;
-            this.taskList[task.getId()].changeStatus(TaskStatus.DURING);
+            this.taskList[task.id].status = TaskStatus.DURING;
+            //this.canFinishedTaskId = task.id;
             return;
         }
-        if (this.NPCId == task.getFromNpcId() && task.showStatus() != TaskStatus.ACCEPTABLE && task.showStatus() != TaskStatus.SUBMITTED) {
+        // if(this.NPCId == task.toNpcId && task.status == TaskStatus.CAN_SUBMIT){
+        //     this.canFinishedTaskId = task.id;
+        //     return;
+        // }
+        // if(this.NPCId == task.toNpcId && task.status == TaskStatus.SUBMITTED){
+        //     this.canFinishedTaskId = null;
+        //     return;
+        // }
+        if (this.NPCId == task.fromNpcId && task.status != TaskStatus.ACCEPTABLE && task.status != TaskStatus.SUBMITTED) {
             this.emoji.alpha = 0;
-            this.taskList[task.getId()].changeStatus(task.showStatus());
+            this.taskList[task.id].status = task.status;
             return;
         }
-        if (this.NPCId == task.getToNpcId() && task.showStatus() != TaskStatus.CAN_SUBMIT) {
+        if (this.NPCId == task.toNpcId && task.status != TaskStatus.CAN_SUBMIT) {
             this.emoji.alpha = 0;
-            this.taskList[task.getId()].changeStatus(task.showStatus());
+            this.taskList[task.id].status = task.status;
             return;
         }
     };
     p.onNPCClick = function () {
         var _this = this;
         this.NPCBitmap.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            console.log("on Click");
+            //console.log(this.canFinishedTaskId);
+            // if(this.canFinishedTaskId != null){
+            //         if(this.NPCId == this.taskList[this.canFinishedTaskId].toNpcId && this.taskList[this.canFinishedTaskId].status == TaskStatus.DURING){
+            //         DialoguePanel.getInstance().alpha = 0.8;
+            //         DialoguePanel.getInstance().buttonTouchEnable(true);
+            //         DialoguePanel.getInstance().setButtonBitmap("wancheng_png");
+            //         DialoguePanel.getInstance().setIfAccept(false);
+            //         DialoguePanel.getInstance().setDuringTaskId(this.canFinishedTaskId);
+            //         DialoguePanel.getInstance().setDialogueText(this.dialogue);
+            //         DialoguePanel.getInstance().setBackgroundBitmap("duihuakuang_png");
+            //         TaskService.getInstance().canFinish(this.canFinishedTaskId);
+            //     }
+            // }
+            //if( this.canFinishedTaskId == null){
             for (var taskId in _this.taskList) {
                 //console.log(taskId);
-                if (_this.NPCId == _this.taskList[taskId].getFromNpcId() && _this.taskList[taskId].showStatus() == TaskStatus.UNACCEPTABLE) {
+                if (_this.NPCId == _this.taskList[taskId].fromNpcId && _this.taskList[taskId].status == TaskStatus.UNACCEPTABLE) {
                     DialoguePanel.getInstance().alpha = 0.8;
                     DialoguePanel.getInstance().buttonTouchEnable(true);
                     DialoguePanel.getInstance().setButtonBitmap("jieshou_png");
@@ -87,8 +110,9 @@ var NPC = (function (_super) {
                     TaskService.getInstance().canAccept(taskId);
                     break;
                 }
-                if (_this.NPCId == _this.taskList[taskId].getToNpcId() && _this.taskList[taskId].showStatus() == TaskStatus.DURING) {
+                if (_this.NPCId == _this.taskList[taskId].toNpcId && _this.taskList[taskId].status == TaskStatus.DURING) {
                     DialoguePanel.getInstance().alpha = 0.8;
+                    console.log("Give me dialogue");
                     DialoguePanel.getInstance().buttonTouchEnable(true);
                     DialoguePanel.getInstance().setButtonBitmap("wancheng_png");
                     DialoguePanel.getInstance().setIfAccept(false);

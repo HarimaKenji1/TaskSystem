@@ -9,12 +9,12 @@ enum TaskStatus{
 
 class Task{
     
-    private id : string;
-    private name : string;
-    private desc : string;
-    private status : TaskStatus;
-    private fromNpcId : string;
-    private toNpcId : string;
+    public id : string;
+    public name : string;
+    public desc : string;
+    public status : TaskStatus;
+    public fromNpcId : string;
+    public toNpcId : string;
 
     constructor(id : string,name : string,fromNpcId : string,toNpcId : string){
         this.id = id;
@@ -25,29 +25,29 @@ class Task{
 
     }
 
-    public getId(){
-        return this.id;
-    }
+    // public getId(){
+    //     return this.id;
+    // }
 
-    public getName(){
-        return this.name;
-    }
+    // public getName(){
+    //     return this.name;
+    // }
 
-    public changeStatus( status : TaskStatus){
-       this.status = status;
-    }
+    // public changeStatus( status : TaskStatus){
+    //    this.status = status;
+    // }
 
-    public showStatus(){
-        return this.status;
-    }
+    // public showStatus(){
+    //     return this.status;
+    // }
 
-    public getFromNpcId(){
-        return this.fromNpcId;
-    }
+    // public getFromNpcId(){
+    //     return this.fromNpcId;
+    // }
 
-    public getToNpcId(){
-        return this.toNpcId;
-    }
+    // public getToNpcId(){
+    //     return this.toNpcId;
+    // }
 
 }
 
@@ -74,7 +74,7 @@ class TaskService{
     } = {};
 
     public addTask(task:Task){
-        this.taskList[task.getId()] = task;
+        this.taskList[task.id] = task;
     }
 
     public addObserver(o : Observer){
@@ -86,29 +86,29 @@ class TaskService{
     }
 
     public finish(id : string){
-        if(this.taskList[id].showStatus() == TaskStatus.CAN_SUBMIT){
-        this.taskList[id].changeStatus(TaskStatus.SUBMITTED);
+        if(this.taskList[id].status == TaskStatus.CAN_SUBMIT){
+        this.taskList[id].status = TaskStatus.SUBMITTED;
         }
         this.notify(this.taskList[id]);
     }
 
     public accept(id : string){
-        if(this.taskList[id].showStatus() == TaskStatus.ACCEPTABLE){
-        this.taskList[id].changeStatus(TaskStatus.DURING);
+        if(this.taskList[id].status == TaskStatus.ACCEPTABLE){
+        this.taskList[id].status = TaskStatus.DURING;
         }
         this.notify(this.taskList[id]);
     }
 
     public canAccept(id : string){
-        if(this.taskList[id].showStatus() == TaskStatus.UNACCEPTABLE){
-        this.taskList[id].changeStatus(TaskStatus.ACCEPTABLE);
+        if(this.taskList[id].status == TaskStatus.UNACCEPTABLE){
+        this.taskList[id].status = TaskStatus.ACCEPTABLE;
         }
         this.notify(this.taskList[id]);
     }
 
     public canFinish(id : string){
-        if(this.taskList[id].showStatus() == TaskStatus.DURING){
-        this.taskList[id].changeStatus(TaskStatus.CAN_SUBMIT);
+        if(this.taskList[id].status == TaskStatus.DURING){
+        this.taskList[id].status = TaskStatus.CAN_SUBMIT;
         }
         this.notify(this.taskList[id]);
     }
@@ -116,6 +116,17 @@ class TaskService{
     private notify(task : Task){
         for(var observer of this.observerList){
             observer.onChange(task);
+        }
+    }
+
+    public init(){
+        var config : Task[] = [
+            {id : "task_00",name:"任务01",desc: "点击NPC_1,在NPC_2交任务" ,status :　TaskStatus.UNACCEPTABLE,fromNpcId : "npc_0", toNpcId: "npc_1"},
+            //{id : "task_01",name:"任务02",desc: "点击NPC_2,在NPC_1交任务",status :　TaskStatus.UNACCEPTABLE,fromNpcId : "npc_1", toNpcId: "npc_0"}
+        ]
+
+        for( var i = 0 ; i <　config.length ; i++){
+            this.addTask(config[i]);
         }
     }
 }
@@ -149,7 +160,7 @@ class TaskPanel extends egret.DisplayObjectContainer implements Observer{
         this.textField.y = this.height / 2 ;
 
         
-        this.textField.size = 20;
+        this.textField.size = 15;
         this.textField.textColor = 0x000000;
         this.addChild(this.textField);
         this.textField.width = 200;
@@ -176,13 +187,15 @@ class TaskPanel extends egret.DisplayObjectContainer implements Observer{
         }
         TaskService.getInstance().getTaskByCustomRule(rule);
         // this.taskList = rule;
-        for(var i = 0; i < this.taskList.length; i++){
-            this.show[i] = this.taskList[i].getName() + " : " + this.taskList[i].showStatus();
-        }
-        for(var i = 0; i < this.show.length; i++){
-            this.textField.text += this.show[i] + "\n";
-        }
+        // for(var i = 0; i < this.taskList.length; i++){
+        //     this.show[i] ="任务名 ：" + this.taskList[i].name + ":\n" +"任务内容："+ this.taskList[i].desc +" :\n" +" 任务状态 ：" + this.taskList[i].status;
+        // }
+        // for(var i = 0; i < this.show.length; i++){
+        //     if(this.taskList[i].status == TaskStatus.DURING || this.taskList[i].status == TaskStatus.SUBMITTED || this.taskList[i].status == TaskStatus.ACCEPTABLE)
+        //     this.textField.text += this.show[i] + "\n";
+        // }
     }
+
 
     private createBitmapByName(name:string):egret.Bitmap {
         var result = new egret.Bitmap();
@@ -200,24 +213,25 @@ class TaskPanel extends egret.DisplayObjectContainer implements Observer{
         }
         TaskService.getInstance().getTaskByCustomRule(rule);
         for( var i = 0 ; i < this.taskList.length ; i++){
-           if(this.taskList[i].getId() == task.getId())
+           if(this.taskList[i].id == task.id)
            {
                egret.Tween.get(this).to({alpha : 1},500);
                //this.button.touchEnabled = true;
-               if(this.taskList[i].showStatus() == TaskStatus.ACCEPTABLE){
+               if(this.taskList[i].status == TaskStatus.ACCEPTABLE){
                    this.ifAccept = true;
                    var texture : egret.Texture = RES.getRes("jieshou_png");
                    //this.button.texture = texture;
                }
-               if(this.taskList[i].showStatus() == TaskStatus.CAN_SUBMIT){
+               if(this.taskList[i].status == TaskStatus.CAN_SUBMIT){
                    this.ifAccept = false;
                    var texture : egret.Texture = RES.getRes("wancheng_png");
                    //this.button.texture = texture;
                }
-               this.show[i] = this.taskList[i].getName() + " : " + this.taskList[i].showStatus();
-               this.duringTaskId = this.taskList[i].getId();
+               this.show[i] ="任务名 ：" + this.taskList[i].name + " :\n " +"任务内容："+ this.taskList[i].desc +" :\n " +" 任务状态 ： " + this.taskList[i].status;
+               this.duringTaskId = this.taskList[i].id;
                this.textField.text = "";
                for(var i = 0; i < this.show.length; i++){
+                   if(this.taskList[i].status == TaskStatus.DURING || this.taskList[i].status == TaskStatus.CAN_SUBMIT || this.taskList[i].status == TaskStatus.ACCEPTABLE)
                    this.textField.text += this.show[i] + "\n";
                }
                this.alpha = 1;
