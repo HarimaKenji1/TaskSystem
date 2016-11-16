@@ -8,6 +8,14 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
         [index : string]:Task
     } = {};
 
+    private canAcceptTaskList:{
+        [index : string]:Task
+    } = {};
+
+    private canSumbitTaskList:{
+        [index : string]:Task
+    } = {};
+
     
 
     constructor(npcId : string ,npcCode : string,dialogue : string[]){
@@ -40,6 +48,14 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
                 if( taskList[taskId].fromNpcId == this.NPCId || taskList[taskId].toNpcId == this.NPCId){
                 this.taskList[taskId] = taskList[taskId];
                 }
+                if(taskList[taskId].fromNpcId == this.NPCId){
+                   this.canAcceptTaskList[taskId] = taskList[taskId];
+                }
+                if(taskList[taskId].toNpcId == this.NPCId){
+                    this.canSumbitTaskList[taskId] = taskList[taskId];
+                }
+
+
                 if(taskList[taskId].fromNpcId == this.NPCId && taskList[taskId].status == TaskStatus.UNACCEPTABLE){
                    var texture : egret.Texture = RES.getRes("tanhao_yellow_png");
                    this.emoji.texture = texture;
@@ -56,7 +72,6 @@ class NPC  extends egret.DisplayObjectContainer implements Observer {
         TaskService.getInstance().getTaskByCustomRule(rule);
 
         this.addChild(this.emoji);
-        this.emoji.width = 
         this.emoji.x = 20;
         this.emoji.y = 20;
     }

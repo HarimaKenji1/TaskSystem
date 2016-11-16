@@ -6,6 +6,8 @@ var NPC = (function (_super) {
         this.dialogue = [];
         //private canFinishedTaskId : string = null;
         this.taskList = {};
+        this.canAcceptTaskList = {};
+        this.canSumbitTaskList = {};
         for (var i = 0; i < dialogue.length; i++) {
             this.dialogue[i] = dialogue[i];
         }
@@ -26,6 +28,12 @@ var NPC = (function (_super) {
                 if (taskList[taskId].fromNpcId == _this.NPCId || taskList[taskId].toNpcId == _this.NPCId) {
                     _this.taskList[taskId] = taskList[taskId];
                 }
+                if (taskList[taskId].fromNpcId == _this.NPCId) {
+                    _this.canAcceptTaskList[taskId] = taskList[taskId];
+                }
+                if (taskList[taskId].toNpcId == _this.NPCId) {
+                    _this.canSumbitTaskList[taskId] = taskList[taskId];
+                }
                 if (taskList[taskId].fromNpcId == _this.NPCId && taskList[taskId].status == TaskStatus.UNACCEPTABLE) {
                     var texture = RES.getRes("tanhao_yellow_png");
                     _this.emoji.texture = texture;
@@ -40,8 +48,7 @@ var NPC = (function (_super) {
         };
         TaskService.getInstance().getTaskByCustomRule(rule);
         this.addChild(this.emoji);
-        this.emoji.width =
-            this.emoji.x = 20;
+        this.emoji.x = 20;
         this.emoji.y = 20;
     }
     var d = __define,c=NPC,p=c.prototype;
@@ -112,7 +119,7 @@ var NPC = (function (_super) {
                 }
                 if (_this.NPCId == _this.taskList[taskId].toNpcId && _this.taskList[taskId].status == TaskStatus.DURING) {
                     DialoguePanel.getInstance().alpha = 0.8;
-                    console.log("Give me dialogue");
+                    //console.log("Give me dialogue");
                     DialoguePanel.getInstance().buttonTouchEnable(true);
                     DialoguePanel.getInstance().setButtonBitmap("wancheng_png");
                     DialoguePanel.getInstance().setIfAccept(false);
