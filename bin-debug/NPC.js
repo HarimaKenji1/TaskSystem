@@ -34,7 +34,7 @@ var NPC = (function (_super) {
                 if (taskList[taskId].toNpcId == _this.NPCId) {
                     _this.canSumbitTaskList[taskId] = taskList[taskId];
                 }
-                if (taskList[taskId].fromNpcId == _this.NPCId && taskList[taskId].status == TaskStatus.UNACCEPTABLE) {
+                if (taskList[taskId].fromNpcId == _this.NPCId && taskList[taskId].status == TaskStatus.ACCEPTABLE) {
                     var texture = RES.getRes("tanhao_yellow_png");
                     _this.emoji.texture = texture;
                     _this.taskList[taskId] = taskList[taskId];
@@ -60,11 +60,12 @@ var NPC = (function (_super) {
             this.taskList[task.id].status = TaskStatus.ACCEPTABLE;
             return;
         }
-        if (this.NPCId == task.toNpcId && task.status == TaskStatus.DURING) {
+        if (this.NPCId == task.toNpcId && task.status == TaskStatus.CAN_SUBMIT) {
             this.emoji.alpha = 1;
             var texture = RES.getRes("wenhao_yellow_png");
             this.emoji.texture = texture;
-            this.taskList[task.id].status = TaskStatus.DURING;
+            this.taskList[task.id].status = TaskStatus.CAN_SUBMIT;
+            this.canSumbitTaskList[task.id] = task;
             //this.canFinishedTaskId = task.id;
             return;
         }
@@ -79,11 +80,47 @@ var NPC = (function (_super) {
         if (this.NPCId == task.fromNpcId && task.status != TaskStatus.ACCEPTABLE && task.status != TaskStatus.SUBMITTED) {
             this.emoji.alpha = 0;
             this.taskList[task.id].status = task.status;
+            for (var taskId in this.canSumbitTaskList) {
+                if (this.NPCId == this.canSumbitTaskList[taskId].toNpcId
+                    && this.canSumbitTaskList[taskId].status == TaskStatus.CAN_SUBMIT) {
+                    this.emoji.alpha = 1;
+                    var texture = RES.getRes("wenhao_yellow_png");
+                    this.emoji.texture = texture;
+                    return;
+                }
+            }
+            for (var taskId in this.taskList) {
+                if (this.NPCId == this.taskList[taskId].fromNpcId
+                    && this.taskList[taskId].status == TaskStatus.ACCEPTABLE) {
+                    this.emoji.alpha = 1;
+                    var texture = RES.getRes("tanhao_yellow_png");
+                    this.emoji.texture = texture;
+                    return;
+                }
+            }
             return;
         }
         if (this.NPCId == task.toNpcId && task.status != TaskStatus.CAN_SUBMIT) {
             this.emoji.alpha = 0;
             this.taskList[task.id].status = task.status;
+            for (var taskId in this.canSumbitTaskList) {
+                if (this.NPCId == this.canSumbitTaskList[taskId].toNpcId
+                    && this.canSumbitTaskList[taskId].status == TaskStatus.CAN_SUBMIT) {
+                    this.emoji.alpha = 1;
+                    var texture = RES.getRes("wenhao_yellow_png");
+                    this.emoji.texture = texture;
+                    return;
+                }
+            }
+            for (var taskId in this.taskList) {
+                if (this.NPCId == this.taskList[taskId].fromNpcId
+                    && this.taskList[taskId].status == TaskStatus.ACCEPTABLE) {
+                    this.emoji.alpha = 1;
+                    var texture = RES.getRes("tanhao_yellow_png");
+                    this.emoji.texture = texture;
+                    return;
+                }
+            }
             return;
         }
     };
@@ -104,29 +141,49 @@ var NPC = (function (_super) {
             //     }
             // }
             //if( this.canFinishedTaskId == null){
-            for (var taskId in _this.taskList) {
-                //console.log(taskId);
-                if (_this.NPCId == _this.taskList[taskId].fromNpcId && _this.taskList[taskId].status == TaskStatus.UNACCEPTABLE) {
-                    DialoguePanel.getInstance().alpha = 0.8;
-                    DialoguePanel.getInstance().buttonTouchEnable(true);
-                    DialoguePanel.getInstance().setButtonBitmap("jieshou_png");
-                    DialoguePanel.getInstance().setIfAccept(true);
-                    DialoguePanel.getInstance().setDuringTaskId(taskId);
-                    DialoguePanel.getInstance().setDialogueText(_this.dialogue);
-                    DialoguePanel.getInstance().setBackgroundBitmap("duihuakuang_png");
-                    TaskService.getInstance().canAccept(taskId);
-                    break;
-                }
-                if (_this.NPCId == _this.taskList[taskId].toNpcId && _this.taskList[taskId].status == TaskStatus.DURING) {
+            for (var taskId in _this.canSumbitTaskList) {
+                if (_this.NPCId == _this.canSumbitTaskList[taskId].toNpcId && _this.canSumbitTaskList[taskId].status == TaskStatus.CAN_SUBMIT) {
                     DialoguePanel.getInstance().alpha = 0.8;
                     //console.log("Give me dialogue");
                     DialoguePanel.getInstance().buttonTouchEnable(true);
                     DialoguePanel.getInstance().setButtonBitmap("wancheng_png");
                     DialoguePanel.getInstance().setIfAccept(false);
-                    DialoguePanel.getInstance().setDuringTaskId(taskId);
+                    DialoguePanel.getInstance().setDuringTask(_this.canSumbitTaskList[taskId]);
+                    //DialoguePanel.getInstance().setDuringTaskConditionType(this.canSumbitTaskList[taskId].conditionType);
+                    //DialoguePanel.getInstance().setDuringTaskCondition(this.taskList[taskId].getCondition());
                     DialoguePanel.getInstance().setDialogueText(_this.dialogue);
                     DialoguePanel.getInstance().setBackgroundBitmap("duihuakuang_png");
                     TaskService.getInstance().canFinish(taskId);
+                    return;
+                }
+            }
+            for (var taskId in _this.taskList) {
+                //console.log(taskId);
+                if (_this.NPCId == _this.taskList[taskId].fromNpcId && _this.taskList[taskId].status == TaskStatus.ACCEPTABLE) {
+                    DialoguePanel.getInstance().alpha = 0.8;
+                    DialoguePanel.getInstance().buttonTouchEnable(true);
+                    DialoguePanel.getInstance().setButtonBitmap("jieshou_png");
+                    DialoguePanel.getInstance().setIfAccept(true);
+                    DialoguePanel.getInstance().setDuringTask(_this.taskList[taskId]);
+                    //DialoguePanel.getInstance().setDuringTaskConditionType(this.taskList[taskId].conditionType);
+                    //DialoguePanel.getInstance().setDuringTaskCondition(this.taskList[taskId].getCondition());
+                    DialoguePanel.getInstance().setDialogueText(_this.dialogue);
+                    DialoguePanel.getInstance().setBackgroundBitmap("duihuakuang_png");
+                    //TaskService.getInstance().canAccept(taskId);
+                    break;
+                }
+                if (_this.NPCId == _this.taskList[taskId].toNpcId && _this.taskList[taskId].status == TaskStatus.CAN_SUBMIT) {
+                    DialoguePanel.getInstance().alpha = 0.8;
+                    //console.log("Give me dialogue");
+                    DialoguePanel.getInstance().buttonTouchEnable(true);
+                    DialoguePanel.getInstance().setButtonBitmap("wancheng_png");
+                    DialoguePanel.getInstance().setIfAccept(false);
+                    DialoguePanel.getInstance().setDuringTask(_this.taskList[taskId]);
+                    //DialoguePanel.getInstance().setDuringTaskConditionType(this.taskList[taskId].conditionType);
+                    //DialoguePanel.getInstance().setDuringTaskCondition(this.taskList[taskId].getCondition());
+                    DialoguePanel.getInstance().setDialogueText(_this.dialogue);
+                    DialoguePanel.getInstance().setBackgroundBitmap("duihuakuang_png");
+                    //TaskService.getInstance().canFinish(taskId);
                     break;
                 }
             }
@@ -187,6 +244,9 @@ var DialoguePanel = (function (_super) {
         // console.log(texture);
         // console.log(this.button.texture);
     };
+    p.setDuringTaskCondition = function (taskCondition) {
+        this.duringTaskCondition = taskCondition;
+    };
     p.setDialogueText = function (dialogue) {
         for (var i = 0; i < dialogue.length; i++) {
             this.dialogue[i] = dialogue[i];
@@ -200,8 +260,11 @@ var DialoguePanel = (function (_super) {
     p.buttonTouchEnable = function (b) {
         this.button.touchEnabled = b;
     };
-    p.setDuringTaskId = function (taskId) {
-        this.duringTaskId = taskId;
+    p.setDuringTask = function (task) {
+        this.duringTask = task;
+    };
+    p.setDuringTaskConditionType = function (taskConditionType) {
+        this.duringTaskConditionType = taskConditionType;
     };
     p.setBackgroundBitmap = function (backgroundCode) {
         var textureBackground = RES.getRes("duihuakuang_png");
@@ -212,13 +275,18 @@ var DialoguePanel = (function (_super) {
         this.button.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             console.log("dialogue on click");
             if (_this.ifAccept) {
-                TaskService.getInstance().accept(_this.duringTaskId);
+                //TaskService.getInstance().accept(this.duringTask.id);
+                _this.duringTask.accept();
                 var texture = RES.getRes("wancheng_gray_png");
                 _this.button.texture = texture;
+                if (_this.duringTask.conditionType == "npctalk") {
+                    _this.duringTask.updateProccess(1);
+                }
                 egret.Tween.get(_this).to({ alpha: 0 }, 1000);
             }
             if (!_this.ifAccept) {
-                TaskService.getInstance().finish(_this.duringTaskId);
+                //TaskService.getInstance().finish(this.duringTask.id);
+                _this.duringTask.submit();
                 var texture = RES.getRes("jieshou_gray_png");
                 _this.button.texture = texture;
                 egret.Tween.get(_this).to({ alpha: 0 }, 1000);

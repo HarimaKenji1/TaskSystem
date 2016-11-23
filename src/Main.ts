@@ -131,7 +131,7 @@ class Main extends egret.DisplayObjectContainer {
         this.createBitmapByName("0030_2_png"),this.createBitmapByName("0031_2_png"),this.createBitmapByName("0032_2_png"),
         this.createBitmapByName("0033_2_png"),this.createBitmapByName("0034_2_png")];
 
-    public Player : Person = new Person();
+    public Player : Person;
     private GoalPoint : egret.Point = new egret.Point();
     private DistancePoint : egret.Point = new egret.Point();
     private Stage01Background : egret.Bitmap;
@@ -150,15 +150,16 @@ class Main extends egret.DisplayObjectContainer {
     private playery : number;
     private playerBitX : number;
     private playerBitY : number;
-    //private task01 : Task = new Task("task_00","点击NPC_1,在NPC_2交任务","npc_0","npc_1");
+    private task01 : Task;
     //private task02 : Task = new Task("task_");
-    private taskService : TaskService = new TaskService();
+    private taskService : TaskService /*= TaskService.getInstance() */;
     private taskPanel : TaskPanel;
     private NPC01 : NPC;
     private NPC02 : NPC;
     private Npc01Dialogue : string[] = ["你好我是NPC01"]
     private Npc02Dialogue : string[] = ["你好我是NPC02"]
     private dialoguePanel : DialoguePanel; 
+    private screenService :ScreenService;
 
     
     /**
@@ -172,14 +173,20 @@ class Main extends egret.DisplayObjectContainer {
         // this.Stage01Background.height = stageH;
         // this.Stage01Background.x = -stageH * 3.1 / 2;
         // this.Stage01Background.y = 0;
+        this.Player  = new Person();
         var stageW:number = this.stage.stageWidth;
         var stageH:number = this.stage.stageHeight;
 
         this.map01 = new TileMap();
         this.addChild(this.map01);
 
-        //TaskService.getInstance().addTask(this.task01);
-        TaskService.getInstance().init();
+        TaskService.getInstance();
+        //TaskService.getInstance().init();
+        
+        
+        this.task01 = creatTask("task_00")
+        TaskService.getInstance().addTask(this.task01);
+        TaskService.getInstance().addTask(creatTask("task_01"));
         this.taskPanel = new TaskPanel();
         TaskService.getInstance().addObserver(this.taskPanel);
         
@@ -190,8 +197,6 @@ class Main extends egret.DisplayObjectContainer {
         this.taskPanel.y = 0;
 
         
-        
-        
 
 
         this.NPC01 = new NPC("npc_0","NPC_Man_01_png",this.Npc01Dialogue);
@@ -199,7 +204,17 @@ class Main extends egret.DisplayObjectContainer {
         TaskService.getInstance().addObserver(this.NPC01);
         TaskService.getInstance().addObserver(this.NPC02);
 
-        
+        this.screenService = new ScreenService();
+        var slime = this.createBitmapByName("Slime_png");
+        this.addChild(slime);
+        slime.x = 64 * 5;
+        slime.y = 64 * 4;
+        slime.touchEnabled = true;
+
+        slime.addEventListener(egret.TouchEvent.TOUCH_TAP,(e : egret.TouchEvent)=>{
+            this.screenService.monsterBeenKilled("task_01");
+        },this)
+
 
         this.addChild(this.NPC01);
         this.NPC01.x = 128;
@@ -226,7 +241,7 @@ class Main extends egret.DisplayObjectContainer {
 
          this.astar = new AStar();
 
-
+         
        
 
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。

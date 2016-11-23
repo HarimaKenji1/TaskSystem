@@ -46,7 +46,6 @@ var Main = (function (_super) {
             this.createBitmapByName("0027_2_png"), this.createBitmapByName("0028_2_png"), this.createBitmapByName("0029_2_png"),
             this.createBitmapByName("0030_2_png"), this.createBitmapByName("0031_2_png"), this.createBitmapByName("0032_2_png"),
             this.createBitmapByName("0033_2_png"), this.createBitmapByName("0034_2_png")];
-        this.Player = new Person();
         this.GoalPoint = new egret.Point();
         this.DistancePoint = new egret.Point();
         this.MoveTime = 0;
@@ -56,9 +55,6 @@ var Main = (function (_super) {
         this.movingTime = 32;
         this.ifOnGoal = false;
         this.ifStartMove = false;
-        //private task01 : Task = new Task("task_00","点击NPC_1,在NPC_2交任务","npc_0","npc_1");
-        //private task02 : Task = new Task("task_");
-        this.taskService = new TaskService();
         this.Npc01Dialogue = ["你好我是NPC01"];
         this.Npc02Dialogue = ["你好我是NPC02"];
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -139,12 +135,16 @@ var Main = (function (_super) {
         // this.Stage01Background.height = stageH;
         // this.Stage01Background.x = -stageH * 3.1 / 2;
         // this.Stage01Background.y = 0;
+        this.Player = new Person();
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
         this.map01 = new TileMap();
         this.addChild(this.map01);
-        //TaskService.getInstance().addTask(this.task01);
-        TaskService.getInstance().init();
+        TaskService.getInstance();
+        //TaskService.getInstance().init();
+        this.task01 = creatTask("task_00");
+        TaskService.getInstance().addTask(this.task01);
+        TaskService.getInstance().addTask(creatTask("task_01"));
         this.taskPanel = new TaskPanel();
         TaskService.getInstance().addObserver(this.taskPanel);
         this.addChild(this.taskPanel);
@@ -154,6 +154,15 @@ var Main = (function (_super) {
         this.NPC02 = new NPC("npc_1", "NPC_Man_02_png", this.Npc02Dialogue);
         TaskService.getInstance().addObserver(this.NPC01);
         TaskService.getInstance().addObserver(this.NPC02);
+        this.screenService = new ScreenService();
+        var slime = this.createBitmapByName("Slime_png");
+        this.addChild(slime);
+        slime.x = 64 * 5;
+        slime.y = 64 * 4;
+        slime.touchEnabled = true;
+        slime.addEventListener(egret.TouchEvent.TOUCH_TAP, function (e) {
+            _this.screenService.monsterBeenKilled("task_01");
+        }, this);
         this.addChild(this.NPC01);
         this.NPC01.x = 128;
         this.NPC01.y = 128;

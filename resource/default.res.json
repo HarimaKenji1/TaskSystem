@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,Ground_png,0008_png,0019_png,0009_png,0010_png,0011_png,0012_png,0013_png,0014_png,0015_png,0016_png,0017_png,0018_png,0029_png,0030_png,0031_png,0032_png,0033_png,0034_png,0024_png,0025_png,0026_png,0027_png,0028_png,0024_2_png,0025_2_png,0026_2_png,0027_2_png,0028_2_png,0029_2_png,0030_2_png,0031_2_png,0032_2_png,0033_2_png,0034_2_png,BackGround_jpg,grass_top_png,stone_png,stonebrick_png,stonebrick_cracked_png,stonebrick_mossy_png,gold_ore_png,leaves_spruce_opaque_png,mycelium_top_png,diamond_ore_png,furnace_side_png,40e5addda144ad34f4c50016d4a20cf430ad8574_jpg,7629f41b9d16fdfa6017417fb08f8c5495ee7b6b_jpg,cactus_top_png,d8e5e754564e9258354e017f9882d158cdbf4e74_jpg,f9fe2530e924b899f546fea96a061d950b7bf674_jpg,hardened_clay_stained_green_with_red_flower_png,hardened_clay_stained_green_with_tree_png,hardened_clay_stained_green_with_white_flower_png,hardened_clay_stained_green_with_yellow_flower_png,pumpkin_png,jieshou_png,wancheng_png,renwumianbanbeijing_png,wancheng_gray_png,jieshou_gray_png,wenhao_gray_png,wenhao_yellow_png,tanhao_gray_png,tanhao_yellow_png,NPC_Man_01_png,NPC_Man_02_png,duihuakuang_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,Ground_png,0008_png,0019_png,0009_png,0010_png,0011_png,0012_png,0013_png,0014_png,0015_png,0016_png,0017_png,0018_png,0029_png,0030_png,0031_png,0032_png,0033_png,0034_png,0024_png,0025_png,0026_png,0027_png,0028_png,0024_2_png,0025_2_png,0026_2_png,0027_2_png,0028_2_png,0029_2_png,0030_2_png,0031_2_png,0032_2_png,0033_2_png,0034_2_png,BackGround_jpg,grass_top_png,stone_png,stonebrick_png,stonebrick_cracked_png,stonebrick_mossy_png,gold_ore_png,leaves_spruce_opaque_png,mycelium_top_png,diamond_ore_png,furnace_side_png,40e5addda144ad34f4c50016d4a20cf430ad8574_jpg,7629f41b9d16fdfa6017417fb08f8c5495ee7b6b_jpg,cactus_top_png,d8e5e754564e9258354e017f9882d158cdbf4e74_jpg,f9fe2530e924b899f546fea96a061d950b7bf674_jpg,hardened_clay_stained_green_with_red_flower_png,hardened_clay_stained_green_with_tree_png,hardened_clay_stained_green_with_white_flower_png,hardened_clay_stained_green_with_yellow_flower_png,pumpkin_png,jieshou_png,wancheng_png,renwumianbanbeijing_png,wancheng_gray_png,jieshou_gray_png,wenhao_gray_png,wenhao_yellow_png,tanhao_gray_png,tanhao_yellow_png,NPC_Man_01_png,NPC_Man_02_png,duihuakuang_png,Slime_png",
 			"name": "preload"
 		}
 	],
@@ -360,6 +360,11 @@
 			"name": "duihuakuang_png",
 			"type": "image",
 			"url": "assets/duihuakuang.png"
+		},
+		{
+			"name": "Slime_png",
+			"type": "image",
+			"url": "assets/Slime.png"
 		}
 	]
 }
